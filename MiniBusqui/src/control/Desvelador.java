@@ -23,7 +23,7 @@ public class Desvelador {
 			if (casilla.isMina()) {
 				casilla.setFirstExplosion(true);
 				desvelarMinas();
-			} else if (tablero.isEmpty(casilla) || tablero.isMarkedArround(coordenada, casilla)) {
+			} else if (casilla.isEmpty() || tablero.isMarkedArround(coordenada)) {
 				Coordenada[] adyacent = tablero.getAdyacents(coordenada);
 				for (Coordenada actual : adyacent) {
 					Casilla casillaActual = tablero.getCasilla(actual);
@@ -55,7 +55,7 @@ public class Desvelador {
 		Casilla casilla = tablero.getCasilla(coordenada);
 		if (casilla.isVelada()) {
 			desvelar(coordenada);
-		} else if (tablero.isMarkedArround(coordenada, casilla)) {
+		} else if (tablero.isMarkedArround(coordenada)) {
 			desvelar(coordenada);
 		}
 		paraUIBusqui.rellenarBoton();

@@ -72,21 +72,17 @@ public class UIbusqui extends JFrame {
 	}
 
 	protected void generateButtons(int rows, int columns) {
-		// Color.getHSBColor(0.5888f, 0.5f, 0.5f)
 		Color borderLight = new Color(1f, 1f, 1f, 0.4f);
 		Color borderDark = new Color(0, 0, 0, 0.4f);
 		Border bordeLinea = new LineBorder(borderLight, 1);
 		Font small = new Font("Arial Black", Font.BOLD, 15);
 		Font big = new Font("Arial Black", Font.BOLD, 30);
-//		Insets borderless = new Insets(0, 0, 0, 0);
 		BevelBorder bevel = new BevelBorder(NORMAL, borderLight, borderDark);
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
 				button = new JButton("");
 				button.setName(i + " " + j);
-//				button.setMargin(borderless);
 				button.setBackground(Color.getHSBColor(getColorIncrement(((float)(i+j)/2), rows), 0.65f, 1f));
-//				button.setBackground(Color.getHSBColor(0.63f, getBrightIncrement(((((i+1) + (j))) / 2), rows), 1f));
 				button.setFont((rows > 10) ? small : big);
 				button.setBorder(bevel);
 				buttonPane.add(button);

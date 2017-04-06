@@ -37,5 +37,8 @@ public class Casilla {
 	public void setFirstExplosion(boolean firstExplosion) {
 		this.firstExplosion = firstExplosion;
 	}
+	public boolean isEmpty() {
+		return getMineCount() == 0 && !isMina();
+	}
 	
 }
