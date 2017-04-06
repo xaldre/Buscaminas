@@ -124,6 +124,14 @@ public class Tablero {
 		return minas;
 	}
 
+	public boolean isMarkedArround(Coordenada coordenada, Casilla casilla) {
+		return casilla.getMineCount() == getAdjacentMarkedCount(coordenada);
+	}
+
+	public boolean isEmpty(Casilla casilla) {
+		return casilla.getMineCount() == 0 && !casilla.isMina();
+	}
+
 	// Unimplemented for time reasons
 	// private int getCount(String str){
 	// int cont=0;
