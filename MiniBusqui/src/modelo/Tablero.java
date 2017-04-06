@@ -4,6 +4,7 @@ import control.Varios;
 
 public class Tablero {
 	private Casilla[][] casillas;
+	private Varios varios = new Varios();
 
 	public Tablero(int filas, int columnas) {
 		super();
@@ -122,6 +123,10 @@ public class Tablero {
 			}
 		}
 		return minas;
+	}
+
+	public boolean isMarkedArround(Coordenada coordenada) {
+		return getCasilla(coordenada).getMineCount() == getAdjacentMarkedCount(coordenada);
 	}
 
 	// Unimplemented for time reasons

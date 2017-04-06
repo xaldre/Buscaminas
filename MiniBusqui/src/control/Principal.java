@@ -2,6 +2,8 @@ package control;
 
 import java.awt.EventQueue;
 
+import vista.UIbusqui;
+
 
 public class Principal {
 	
@@ -12,7 +14,7 @@ public class Principal {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ParaUIBusqui frame = new ParaUIBusqui();
+					UIbusqui frame = new ParaUIBusqui();
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 				} catch (Exception e) {

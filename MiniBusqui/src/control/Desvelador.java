@@ -1,10 +1,5 @@
 package control;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import modelo.Casilla;
@@ -28,7 +23,7 @@ public class Desvelador {
 			if (casilla.isMina()) {
 				casilla.setFirstExplosion(true);
 				desvelarMinas();
-			} else if (isEmpty(casilla) || isMarkedArround(coordenada, casilla)) {
+			} else if (casilla.isEmpty() || tablero.isMarkedArround(coordenada)) {
 				Coordenada[] adyacent = tablero.getAdyacents(coordenada);
 				for (Coordenada actual : adyacent) {
 					Casilla casillaActual = tablero.getCasilla(actual);
@@ -42,14 +37,6 @@ public class Desvelador {
 			}
 		}
 
-	}
-
-	private boolean isMarkedArround(Coordenada coordenada, Casilla casilla) {
-		return casilla.getMineCount() == tablero.getAdjacentMarkedCount(coordenada);
-	}
-
-	private boolean isEmpty(Casilla casilla) {
-		return casilla.getMineCount() == 0 && !casilla.isMina();
 	}
 
 	private void desvelarMinas() {
@@ -68,7 +55,7 @@ public class Desvelador {
 		Casilla casilla = tablero.getCasilla(coordenada);
 		if (casilla.isVelada()) {
 			desvelar(coordenada);
-		} else if (isMarkedArround(coordenada, casilla)) {
+		} else if (tablero.isMarkedArround(coordenada)) {
 			desvelar(coordenada);
 		}
 		paraUIBusqui.rellenarBoton();
