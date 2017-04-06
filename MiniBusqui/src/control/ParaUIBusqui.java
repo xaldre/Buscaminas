@@ -28,8 +28,10 @@ public class ParaUIBusqui extends UIbusqui {
 	Iniciador iniciador;
 	// Tablero tablero;
 
-	// al crear UI le paso por parametros las filas y las columnas, para
-	// modificar el grid layout del buttonPane
+	/*
+	 * al crear UI le paso por parametros las filas y las columnas, para
+	 * modificar el grid layout del buttonPane
+	 */
 	public ParaUIBusqui() {
 		iniciador = new Iniciador();
 		initialize();
@@ -37,7 +39,7 @@ public class ParaUIBusqui extends UIbusqui {
 
 	private void initialize() {
 		addButtonsUI();
-		 setResizable(false);
+		setResizable(false);
 		Desvelador desvelador = new Desvelador(iniciador.getTablero(), this);
 		Marcador marcador = new Marcador(iniciador.getTablero());
 
@@ -81,7 +83,7 @@ public class ParaUIBusqui extends UIbusqui {
 				if (actual.isMina()) {
 					// Explosion
 					((JButton) boton).setIcon(bomb);
-					if (actual.isFirstExplosion()){
+					if (actual.isFirstExplosion()) {
 						((JButton) boton).setBackground(Color.RED);
 					}
 

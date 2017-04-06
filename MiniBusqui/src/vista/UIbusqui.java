@@ -1,6 +1,7 @@
 package vista;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 
 import javax.swing.JFrame;
@@ -17,6 +18,10 @@ import javax.swing.border.EtchedBorder;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Cursor;
+import javax.swing.UIManager;
+import java.awt.SystemColor;
+import javax.swing.JMenu;
+import java.awt.BorderLayout;
 
 public class UIbusqui extends JFrame {
 
@@ -24,7 +29,9 @@ public class UIbusqui extends JFrame {
 	protected JButton button;
 	protected JPanel buttonPane;
 	private JPanel panel;
-	private JLabel lblExplorar;
+	private JButton btnWest;
+	private JButton btnEast;
+	private JButton btnRestart;
 
 	public JPanel getButtonPane() {
 		return buttonPane;
@@ -48,19 +55,26 @@ public class UIbusqui extends JFrame {
 		contentPane.setLayout(gbl_contentPane);
 				
 				panel = new JPanel();
+				panel.setBackground(SystemColor.menu);
 				GridBagConstraints gbc_panel = new GridBagConstraints();
 				gbc_panel.insets = new Insets(0, 0, 5, 0);
 				gbc_panel.fill = GridBagConstraints.BOTH;
 				gbc_panel.gridx = 0;
 				gbc_panel.gridy = 0;
 				contentPane.add(panel, gbc_panel);
+				panel.setLayout(new BorderLayout(0, 0));
 				
-				lblExplorar = new JLabel("Explorar");
-				lblExplorar.setHorizontalAlignment(SwingConstants.CENTER);
-				panel.add(lblExplorar);
+				btnWest = new JButton("west");
+				panel.add(btnWest, BorderLayout.WEST);
+				
+				btnEast = new JButton("east");
+				panel.add(btnEast, BorderLayout.EAST);
+				
+				btnRestart = new JButton("RESTART");
+				panel.add(btnRestart, BorderLayout.CENTER);
 		
 				buttonPane = new JPanel();
-				buttonPane.setBackground(Color.ORANGE);
+				buttonPane.setBackground(new Color(240, 240, 240));
 				buttonPane.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 				buttonPane.setBorder(null);
 				GridBagConstraints gbc_buttonPane = new GridBagConstraints();
@@ -103,6 +117,13 @@ public class UIbusqui extends JFrame {
 		float cuenta = i+0.1f/ max;
 		float baseColor = 0.6f;
 		return baseColor + (cuenta * incremento);
+	}
+
+	private void setRainbowStyle() {
+		Component[] botones = buttonPane.getComponents();
+		for (Component boton : botones) {
+			//
+		}
 	}
 
 }
