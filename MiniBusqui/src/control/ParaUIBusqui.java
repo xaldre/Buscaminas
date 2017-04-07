@@ -8,9 +8,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import java.awt.Color;
@@ -26,6 +28,7 @@ public class ParaUIBusqui extends UIbusqui {
 	// padre
 
 	Iniciador iniciador;
+	Varios varios = new Varios();
 	// Tablero tablero;
 
 	/*
@@ -48,15 +51,50 @@ public class ParaUIBusqui extends UIbusqui {
 		for (Component component : botones) {
 			MouseAdapter adapter = new MouseAdapter() {
 				public void mousePressed(MouseEvent e) {
-					if (SwingUtilities.isRightMouseButton(e) && !iniciador.isEnded()) {
-						marcador.marcarCasilla((JButton) e.getSource());
-					}
-					if (SwingUtilities.isLeftMouseButton(e) && !iniciador.isEnded()) {
-						desvelador.desvelarCasilla((JButton) e.getSource());
+					if (!iniciador.isEnded()) {
+						if (SwingUtilities.isRightMouseButton(e)) {
+							marcador.marcarCasilla((JButton) e.getSource());
+						}
+						if (SwingUtilities.isLeftMouseButton(e)) {
+							desvelador.desvelarCasilla((JButton) e.getSource());
+						}
 					}
 				}
 			};
 			((JButton) component).addMouseListener(adapter);
+		}
+		MouseAdapter reset = new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				try {
+					Principal.restartApplication(null);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		};
+		mntmRestart.addMouseListener(reset);
+
+		mntmRainbow.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				setRainbowStyle();
+			}
+		});
+
+		mntmRojo.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				setColor(Color.RED);
+			}
+		});
+	}
+
+	protected void endGame(boolean victoria) {
+		if (victoria) {
+			lblTitulo.setForeground(Color.GREEN);
+			lblTitulo.setText("¡VICTORIA!");
+		} else {
+			lblTitulo.setForeground(Color.RED);
+			lblTitulo.setText("¡HAS PERDIDO!");
 		}
 	}
 
@@ -95,6 +133,9 @@ public class ParaUIBusqui extends UIbusqui {
 
 				}
 			}
+		}
+		if (iniciador.isEnded()) {
+			endGame(iniciador.isVictoria());
 		}
 	}
 
@@ -149,5 +190,27 @@ public class ParaUIBusqui extends UIbusqui {
 
 	private void textoBoton(Component boton, Coordenada coordenada) {
 		((JButton) boton).setText(String.valueOf(iniciador.getTablero().getCasilla(coordenada).getMineCount()));
+	}
+
+	private void setRainbowStyle() {
+		resetButtonPane();
+		setRainbow(true);
+		initialize();
+		rellenarBoton();
+	}
+
+	private void setColor(Color color) {
+		setRainbow(false);
+		this.color = color;
+		Component[] components = buttonPane.getComponents();
+		for (Component boton : components) {
+			if (iniciador.getTablero().getCasilla(varios.obtenerCoordenada((JButton) boton)).isVelada()) {
+				((JButton) boton).setBackground(color);
+			}
+		}
+	}
+
+	private void setRainbow(boolean Boolean) {
+		rainbow = Boolean;
 	}
 }

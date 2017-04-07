@@ -22,20 +22,33 @@ import javax.swing.UIManager;
 import java.awt.SystemColor;
 import javax.swing.JMenu;
 import java.awt.BorderLayout;
+import javax.swing.JPopupMenu;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 public class UIbusqui extends JFrame {
 
 	protected JPanel contentPane;
 	protected JButton button;
 	protected JPanel buttonPane;
-	private JPanel panel;
-	private JButton btnWest;
-	private JButton btnEast;
-	private JButton btnRestart;
-
-	public JPanel getButtonPane() {
-		return buttonPane;
-	}
+	private JMenuBar menuBar;
+	protected JLabel lblTitulo;
+	private JMenu mnTama;
+	protected JMenuItem mntmFacil;
+	protected JMenuItem mntmMedio;
+	protected JMenuItem mntmDificil;
+	protected JMenuItem mntmExtremo;
+	private JMenu mnColor;
+	protected JMenuItem mntmRainbow;
+	protected JMenuItem mntmAzul;
+	protected JMenuItem mntmRojo;
+	protected JMenuItem mntmGris;
+	private JMenu mnOpciones;
+	protected JMenuItem mntmRestart;
+	protected Color color;
+	protected boolean rainbow=true;
 
 	
 	/**
@@ -44,6 +57,46 @@ public class UIbusqui extends JFrame {
 	public UIbusqui() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 450);
+		
+		menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		mnOpciones = new JMenu("Opciones");
+		menuBar.add(mnOpciones);
+		
+		mntmRestart = new JMenuItem("Reinicio");
+		mnOpciones.add(mntmRestart);
+		
+		mnTama = new JMenu("Dificultad");
+		menuBar.add(mnTama);
+		
+		mntmFacil = new JMenuItem("Facil");
+		mntmFacil.setHorizontalAlignment(SwingConstants.LEFT);
+		mnTama.add(mntmFacil);
+		
+		mntmMedio = new JMenuItem("Medio");
+		mnTama.add(mntmMedio);
+		
+		mntmDificil = new JMenuItem("Dificil");
+		mnTama.add(mntmDificil);
+		
+		mntmExtremo = new JMenuItem("Pls stahp");
+		mnTama.add(mntmExtremo);
+		
+		mnColor = new JMenu("Color");
+		menuBar.add(mnColor);
+		
+		mntmRainbow = new JMenuItem("Rainbow");
+		mnColor.add(mntmRainbow);
+		
+		mntmAzul = new JMenuItem("Azul");
+		mnColor.add(mntmAzul);
+		
+		mntmGris = new JMenuItem("Gris");
+		mnColor.add(mntmGris);
+		
+		mntmRojo = new JMenuItem("Rojo");
+		mnColor.add(mntmRojo);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		setContentPane(contentPane);
@@ -54,35 +107,28 @@ public class UIbusqui extends JFrame {
 		gbl_contentPane.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 				
-				panel = new JPanel();
-				panel.setBackground(SystemColor.menu);
-				GridBagConstraints gbc_panel = new GridBagConstraints();
-				gbc_panel.insets = new Insets(0, 0, 5, 0);
-				gbc_panel.fill = GridBagConstraints.BOTH;
-				gbc_panel.gridx = 0;
-				gbc_panel.gridy = 0;
-				contentPane.add(panel, gbc_panel);
-				panel.setLayout(new BorderLayout(0, 0));
-				
-				btnWest = new JButton("west");
-				panel.add(btnWest, BorderLayout.WEST);
-				
-				btnEast = new JButton("east");
-				panel.add(btnEast, BorderLayout.EAST);
-				
-				btnRestart = new JButton("RESTART");
-				panel.add(btnRestart, BorderLayout.CENTER);
+				lblTitulo = new JLabel("BUSCAMINAS");
+				lblTitulo.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
+				GridBagConstraints gbc_lblTitulo = new GridBagConstraints();
+				gbc_lblTitulo.insets = new Insets(0, 0, 5, 0);
+				gbc_lblTitulo.gridx = 0;
+				gbc_lblTitulo.gridy = 0;
+				contentPane.add(lblTitulo, gbc_lblTitulo);
 		
-				buttonPane = new JPanel();
-				buttonPane.setBackground(new Color(240, 240, 240));
-				buttonPane.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-				buttonPane.setBorder(null);
-				GridBagConstraints gbc_buttonPane = new GridBagConstraints();
-				gbc_buttonPane.fill = GridBagConstraints.BOTH;
-				gbc_buttonPane.gridx = 0;
-				gbc_buttonPane.gridy = 1;
-				contentPane.add(buttonPane, gbc_buttonPane);
-				buttonPane.setLayout(new GridLayout(1, 0, 0, 0));
+				resetButtonPane();
+	}
+
+	protected void resetButtonPane() {
+		buttonPane = new JPanel();
+		buttonPane.setBackground(new Color(240, 240, 240));
+		buttonPane.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		buttonPane.setBorder(null);
+		GridBagConstraints gbc_buttonPane = new GridBagConstraints();
+		buttonPane.setLayout(new GridLayout(1, 0, 0, 0));
+		gbc_buttonPane.fill = GridBagConstraints.BOTH;
+		gbc_buttonPane.gridx = 0;
+		gbc_buttonPane.gridy = 1;
+		contentPane.add(buttonPane, gbc_buttonPane);
 	}
 
 	protected void generateButtons(int rows, int columns) {
@@ -96,7 +142,11 @@ public class UIbusqui extends JFrame {
 			for (int j = 0; j < columns; j++) {
 				button = new JButton("");
 				button.setName(i + " " + j);
-				button.setBackground(Color.getHSBColor(getColorIncrement(((float)(i+j)/2), rows), 0.65f, 1f));
+				if (rainbow){
+					button.setBackground(Color.getHSBColor(getColorIncrement(((float)(i+j)/2), rows), 0.65f, 1f));
+				} else {
+					button.setBackground(color);
+				}
 				button.setFont((rows > 10) ? small : big);
 				button.setBorder(bevel);
 				buttonPane.add(button);
@@ -117,13 +167,6 @@ public class UIbusqui extends JFrame {
 		float cuenta = i+0.1f/ max;
 		float baseColor = 0.6f;
 		return baseColor + (cuenta * incremento);
-	}
-
-	private void setRainbowStyle() {
-		Component[] botones = buttonPane.getComponents();
-		for (Component boton : botones) {
-			//
-		}
 	}
 
 }

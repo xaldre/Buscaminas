@@ -10,8 +10,8 @@ public class Iniciador {
 	private final static int MAX_LENGTH = 55;
 	private final static int MIN_LENGTH = 5;
 	private static final int DIFICULTY_THRESHOLD = 9;
-	private int dificultad = 5;
-	private int rows = 53;
+	private int dificultad =3;
+	private int rows = 50;
 	private Tablero tablero;
 
 	int getRows() {
@@ -117,7 +117,7 @@ public class Iniciador {
 		return contador==minas.length;
 	}
 
-	private boolean isVictoria() {
+	boolean isVictoria() {
 		return tablero.getMinasCount()==tablero.getVeladasCount();
 	}
 }
